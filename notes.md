@@ -1,3 +1,37 @@
+# Material UI Notes
+
+## How to create custom CSS
+- Import `markStyles` from material UI.
+
+```js
+import { makeStyles } from '@material-ui/core/styles';
+
+```
+- Add the Html elements as object and their properties as keys and add the value you want.
+
+```jsx
+const useStyles = makeStyles({
+  title:{
+    fontSize: 20
+  }
+});
+```
+- Add the styles to your component
+```jsx
+const About = (props)=>{
+  const classes = useStyles(props);
+  return(
+    <>
+    <h1 className={classes.title}> Firebase Note app</h1>
+  </>
+    )
+}
+export default About
+```
+
+## How to customize the Theme
+
+```jsx
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Notes from './pages/Notes'
 import Create from './pages/Create'
@@ -39,3 +73,5 @@ function App() {
 }
 
 export default App;
+
+```
