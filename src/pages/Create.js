@@ -1,130 +1,118 @@
-import {useState} from 'react'
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import TextField from '@material-ui/core/TextField';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from "react";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import { makeStyles } from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
-  field:{
+  field: {
     marginTop: 20,
     marginBottom: 20,
-    display: 'block'
-  }
+    display: "block",
+  },
 });
 
-export default function Create(props) {
-  const [title, setTitle] = useState('');
-  const [details, setDetails] = useState('');
+export default function Create() {
+  const classes = useStyles();
+  const history = useHistory();
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
   const [titleError, setTitleError] = useState(false);
   const [detailsError, setDetailsError] = useState(false);
-  const [initialCategory, setInitialCategory] = useState('todos');
-  const classes = useStyles(props);
-  const titleHandler =(e)=>{
-    const titleValue = e.target.value;
-    setTitle(titleValue);
+  const [category, setCategory] = useState("money");
 
-  }
-  const detailHandler = (e)=>{
-    const detailsValue = e.target.value;
-    setDetails(detailsValue);
-  }
-  const categoryHandler =(e)=>{
-    setInitialCategory(e.target.value);
-  }
-
-  const formHandler = (e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     setTitleError(false);
     setDetailsError(false);
-    const noteTitle = title;
-    const noteDetails = details;
-    noteTitle.length > 1 && noteTitle.length !== 0 ? setTitleError(false): setTitleError(true);
-    noteDetails.length > 1 && noteDetails.length !== 0 ? setDetailsError(false): setDetailsError(true);
 
-    const noteValues ={
-      noteTitle,
-      noteDetails,
-      initialCategory
+    if (title == "") {
+      setTitleError(true);
     }
+    if (details == "") {
+      setDetailsError(true);
+    }
+    if (title && details) {
+      fetch("http://localhost:8000/notes", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ title, details, category }),
+      }).then(() => history.push("/"));
+    }
+  };
 
-    if(noteTitle && noteDetails) console.log(noteValues);
-
-
-
-  }
   return (
-    <Container>
-     <Typography
-       className={classes.title}
-       variant='h6'
-       component='h2'
-       color='textSecondary'
-       gutterButtom
-       >
-         Create a new Note
-     </Typography>
-     <FormControl component='fieldset' className={classes.field}>
-       <FormLabel component='legend'> Category</FormLabel>
-     <RadioGroup aria-label='Category' value={initialCategory} name='Category' onChange={categoryHandler}>
-       <FormControlLabel value='personal' label='Personal' control={<Radio/>}>Personal</FormControlLabel>
-     <FormControlLabel value='work' label='Work'  control={<Radio/>}>Work</FormControlLabel>
-   <FormControlLabel value='todos' label='Todos' control={<Radio/>}>Todos</FormControlLabel>
- <FormControlLabel value='reminders' label='Reminders'  control={<Radio/>}>Reminders</FormControlLabel>
+    <Container size="sm">
+      <Typography
+        variant="h6"
+        color="textSecondary"
+        component="h2"
+        gutterBottom
+      >
+        Create a New Note
+      </Typography>
 
-     </RadioGroup>
+      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <TextField
+          className={classes.field}
+          onChange={(e) => setTitle(e.target.value)}
+          label="Note Title"
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          required
+          error={titleError}
+        />
+        <TextField
+          className={classes.field}
+          onChange={(e) => setDetails(e.target.value)}
+          label="Details"
+          variant="outlined"
+          color="secondary"
+          multiline
+          rows={4}
+          fullWidth
+          required
+          error={detailsError}
+        />
 
-     </FormControl>
-     <form noValidate autoComplete='off' onSubmit={formHandler}>
-       <TextField id='outlined-basic'
-         className={classes.field}
-         onChange={titleHandler}
-         variant='outlined'
-         color='secondary'
-         label='Note Title'
-         fullWidth
-         required
-         error={titleError}
-       />
-       <TextField id='outlined-basic'
-         className={classes.field}
-         onChange={detailHandler}
-         variant='outlined'
-         color='secondary'
-         label='Details'
-         fullWidth
-         required
-         multiline
-         rows={4}
-         error={detailsError}
-       />
-       <Button
-         type='submit'
-         className={classes.btn}
-         color='secondary'
-        variant='contained'
-        endIcon={<ArrowForwardIosIcon/>}
+        {/* <Radio value="hello" />
+        <Radio value="goodbye" /> */}
 
-         >
-         submit
-       </Button>
+        <FormControl className={classes.field}>
+          <FormLabel>Note Category</FormLabel>
+          <RadioGroup
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <FormControlLabel value="money" control={<Radio />} label="Money" />
+            <FormControlLabel value="todos" control={<Radio />} label="Todos" />
+            <FormControlLabel
+              value="reminders"
+              control={<Radio />}
+              label="Reminders"
+            />
+            <FormControlLabel value="work" control={<Radio />} label="Work" />
+          </RadioGroup>
+        </FormControl>
+
+        <Button
+          type="submit"
+          color="secondary"
+          variant="contained"
+          endIcon={<KeyboardArrowRightIcon />}
+        >
+          Submit
+        </Button>
       </form>
-
-
-
-
-
-
-
-   </Container>
-
-  )
+    </Container>
+  );
 }
