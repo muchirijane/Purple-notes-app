@@ -8,26 +8,50 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { AddCircleOutlineOutlined, SubjectOutlined } from "@material-ui/icons";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import { format } from 'date-fns';
+import Avatar from "@material-ui/core/Avatar";
+
+
+
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles({
-  page: {
-    background: "#f9f9f9",
-    width: "100%",
-  },
-  drawer: {
-    width: drawerWidth,
-  },
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  root: {
-    display: "flex",
-  },
-  active: {
-    background: "#f4f4f4",
-  },
+const useStyles = makeStyles((theme) => {
+  return {
+    page: {
+      background: "#f9f9f9",
+      width: "100%",
+      padding: theme.spacing(3),
+    },
+    drawer: {
+      width: drawerWidth,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    root: {
+      display: "flex",
+    },
+    active: {
+      background: "#f4f4f4",
+    },
+    title: {
+      padding: theme.spacing(2),
+    },
+    appbar: {
+      width: `calc(100% - ${drawerWidth}px)`
+    },
+    toolbar: theme.mixins.toolbar,
+    avatar: {
+      marginLeft: theme.spacing(2)
+    },
+    date: {
+      flexGrow: 1
+    }
+
+  }
 });
 
 export default function Layout({ children }) {
@@ -51,6 +75,13 @@ export default function Layout({ children }) {
 
   return (
     <div className={classes.root}>
+      <AppBar className={classes.appbar} elevation={0}>
+        <Toolbar >
+          <Typography className={classes.date}  >Today is the {format(new Date(), 'do MMMM Y')}</Typography>
+          <Typography>Aria</Typography>
+          <Avatar className={classes.avatar} src='/profile.png' />
+        </Toolbar>
+      </AppBar>
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -58,7 +89,7 @@ export default function Layout({ children }) {
         classes={{ paper: classes.drawerPaper }}
       >
         <div>
-          <Typography variant="5">Purple Notes</Typography>
+          <Typography variant="5" className={classes.title}>Purple Notes</Typography>
         </div>
         <List>
           {menuItems.map((item) => (
@@ -74,7 +105,10 @@ export default function Layout({ children }) {
           ))}
         </List>
       </Drawer>
-      <div className={classes.page}>{children}</div>
+      <div className={classes.page}>
+        <div classNmae={classes.toolbar}></div>
+        {children}
+      </div>
     </div>
   );
 }

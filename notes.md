@@ -193,3 +193,62 @@ import Container from "@material-ui/core/Container";
   </Grid>
 </Container>
 ```
+
+#### How to push a page path in React
+
+- First import useHistory from react-router-dom.
+```js
+import { useHistory} from "react-router-dom";
+```
+
+- The you can story the function in a variable.
+
+```js
+  const history = useHistory();
+```
+- Use the history variable to push the path you want the users to get to. Example:
+
+```js
+
+const aboutHandler =()=>{
+  history.push('/about);
+}
+
+<Button onClick={aboutHandler}></Button>
+```
+
+#### How to get current location path in React app
+- This can be applied when you want to place the background or color of a nav link when the current page is active. 
+
+- First import `useLocation` from react-router-dom. 
+
+```js
+import { useLocation } from "react-router-dom";
+```
+- Then store the function in a variable.
+
+```js
+const location =  useLocation();
+```
+- Now let's add the conditional statement on the link to add a background color when the page is active. This is better when your nav link are stored in an array, so you  use map method to get each link. Like:
+
+```js
+const menuItems = [
+    {
+      text: "My Notes",
+      icon: <SubjectOutlined color="secondary" />,
+      path: "/",
+      id: "1",
+    },
+    {
+      text: "Create Notes",
+      icon: <AddCircleOutlineOutlined color="secondary" />,
+      path: "/create",
+      id: "2",
+    },
+  ];
+```
+
+```js
+<a className={location.pathname == nav.path ? classes.active : null}></a>
+```
