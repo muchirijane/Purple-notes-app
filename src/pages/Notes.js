@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import NoteCard from "../components/NoteCard";
+import Masonry from 'react-masonry-css';
 export default function Notes() {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/notes")
+    fetch("http://localhost:8000/notes/")
       .then((res) => res.json())
-      .then((data) => setNotes(data));
+      .then((data) => setNotes(data))
+      .catch((err) => console.log(err));
   }, []);
 
   const handleDelete = async (id) => {
@@ -19,15 +21,25 @@ export default function Notes() {
     setNotes(newNotes);
   };
 
+  const breakPoints = {
+    default: 3,
+    1100: 2,
+    800: 1,
+  }
+
   return (
     <Container>
-      <Grid container spacing={4}>
+      <Masonry
+        breakpointCols={breakPoints}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
         {notes.map((note) => (
-          <Grid item key={note.id} xs={12} sm={6} md={4}>
+          <div key={note.id}>
             <NoteCard note={note} handleDelete={handleDelete} />
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </Masonry>
     </Container>
   );
 }

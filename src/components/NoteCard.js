@@ -9,13 +9,14 @@ import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { green, blue, purple, red } from "@material-ui/core/colors";
 
+
 const useStyles = makeStyles({
   avatar: {
     backgroundColor: (note) => {
 
-      if (note.category == 'work') return red[300];
-      if (note.category == 'todos') return purple[300];
-      if (note.category == 'reminders') return blue[200];
+      if (note.category == 'work') return red[500];
+      if (note.category == 'todos') return purple[400];
+      if (note.category == 'reminders') return blue[500];
       if (note.category == 'money') return green[400];
     }
 

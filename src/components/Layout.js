@@ -89,7 +89,9 @@ export default function Layout({ children }) {
         classes={{ paper: classes.drawerPaper }}
       >
         <div>
-          <Typography variant="5" className={classes.title}>Purple Notes</Typography>
+          <Typography variant="h5" className={classes.title}>
+            Purple Notes
+          </Typography>
         </div>
         <List>
           {menuItems.map((item) => (
@@ -106,7 +108,7 @@ export default function Layout({ children }) {
         </List>
       </Drawer>
       <div className={classes.page}>
-        <div classNmae={classes.toolbar}></div>
+        <div className={classes.toolbar}></div>
         {children}
       </div>
     </div>
