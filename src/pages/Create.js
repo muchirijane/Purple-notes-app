@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import db from "../firebase";
+import { onSnapshot, collection, addDoc } from "@firebase/firestore";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -40,12 +42,22 @@ export default function Create() {
     if (details == "") {
       setDetailsError(true);
     }
+    const createdNotes = async () => {
+      try {
+        const collectionRef = collection(db, "notes");
+        const payload = { title, details, category };
+        await addDoc(collectionRef, payload);
+      } catch (error) {
+        console.log(error.message);
+      }
+
+    }
     if (title && details) {
-      fetch("http://localhost:8000/notes", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({ title, details, category }),
-      }).then(() => history.push("/"));
+
+      createdNotes();
+
+      history.push("/");
+
     }
   };
 
@@ -83,9 +95,6 @@ export default function Create() {
           required
           error={detailsError}
         />
-
-        {/* <Radio value="hello" />
-        <Radio value="goodbye" /> */}
 
         <FormControl className={classes.field}>
           <FormLabel>Note Category</FormLabel>
