@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import db from "../firebase";
-import { onSnapshot, collection, addDoc } from "@firebase/firestore";
+import { collection, addDoc } from "@firebase/firestore";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";

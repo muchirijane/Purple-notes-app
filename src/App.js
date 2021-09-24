@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notes from "./pages/Notes";
 import Create from "./pages/Create";
+import Chart from "./pages/Chart";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import { purple } from "@material-ui/core/colors";
 import Layout from "./components/Layout";
@@ -33,6 +34,9 @@ function App() {
             </Route>
             <Route path="/create">
               <Create />
+            </Route>
+            <Route path="/chart">
+              <Chart />
             </Route>
           </Switch>
         </Layout>

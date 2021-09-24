@@ -71,6 +71,12 @@ export default function Layout({ children }) {
       path: "/create",
       id: "2",
     },
+    {
+      text: "My chart",
+      icon: <AddCircleOutlineOutlined color="secondary" />,
+      path: "/chart",
+      id: "2",
+    },
   ];
 
   return (
