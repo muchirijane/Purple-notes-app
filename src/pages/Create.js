@@ -104,6 +104,7 @@ export default function Create() {
           >
             <FormControlLabel value="money" control={<Radio />} label="Money" />
             <FormControlLabel value="todos" control={<Radio />} label="Todos" />
+            <FormControlLabel value="personal" control={<Radio />} label="Personal" />
             <FormControlLabel
               value="reminders"
               control={<Radio />}
